@@ -12,11 +12,22 @@ For the first work [1], this video shows how it work: https://onedrive.live.com/
 
 For the second and third work [2][3], please visit https://github.com/ygling2008/dense_new for how it works. The implementations here is an extension of [2][3], such as jointly estimating imu biases and robot poses, adding the flexibity to open/close front marginalization. More details can be found in the launch files and codes.
 
-Our package is compatible with the standard driver of VI-Sensor and ROS version of indigo. OpenCV is needed. ROS packages related to VI-sensor are needed, too. (https://github.com/ethz-asl/libvisensor and https://github.com/ethz-asl/visensor_node.git).
 
-After downloading the codes, use catkin_make to complier it. Then type "roslaunch edge_imu_bias V1_01_easy.launch 
-" to run the Euroc Dataset(http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets). You need to adjust the path of the downloaded Euroc dataset in your computer. 
+## Setup
+Our package is compatible with the standard driver of VI-Sensor and ROS version of indigo. OpenCV (>3.0) is needed. ROS packages related to VI-sensor are needed, too. (https://github.com/ethz-asl/libvisensor and https://github.com/ethz-asl/visensor_node.git).
 
-NOTE: The flag (denseOrNot) in the launch file determines whether to use direct dense tracking (true) or edge alignment (false). 
+After cloning the repo, use `catkin_make` to compile it.   
+Then do `$roslaunch edge_imu_bias V1_01_easy.launch` to run the [Euroc Dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets).  
+You need to adjust the path of the downloaded Euroc dataset in your computer in two places:
+In each launch file, you need to change the line `args="-s 1 -r 1 /home/ygling2008/testdata/euroc_dataset/V1_01_easy/V1_01_easy.bag">` appropriately.  
+In `main_live_odometry.cpp`, you need to change the line with 
+`string packagePath = "/home/ygling2008/catkin_ws/src/edge_imu_bias/" ;`
+
+NOTE: The flag (`denseOrNot`) in the launch file determines whether to use direct dense tracking (`true`) or edge alignment (`false`). 
+
+### Dockerfile
+Instead of setting up ceres, opencv, etc, you can simply use the `Dockerfile` by [@madratman](https://github.com/madratman):
+- Just do `$ docker build -t IMAGENAME .`
+- For common issues, check ROS tutorials for Docker [here](http://wiki.ros.org/docker/Tutorials)
 
 For more questions, please contact ylingaa at connect dot ust dot hk .
